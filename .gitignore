@@ -1,0 +1,19 @@
+*.log
+*.out
+*.pot
+*.pyc
+local_settings.py
+
+.idea
+.idea/
+.idea/*
+
+.process_mission
+.process_mission/
+.process_mission/*
+
+.statics/temp_image/*
+
+# log
+logs/*
+*.out
