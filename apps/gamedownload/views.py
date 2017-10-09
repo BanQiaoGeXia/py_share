@@ -6,7 +6,7 @@
     Change Activity:
     
 """
-from django.http import StreamingHttpResponse
+from django.http import StreamingHttpResponse, HttpResponse
 from django.views.generic import View
 
 
