@@ -17,9 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from apps.indexhandlers.views import IndexHandler
 from apps.gamedownload.views import GameDownload
+from apps.introduction.views import Introduction
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexHandler.as_view(), name='index'),
     url(r'^download/', GameDownload.as_view(), name='download'),
+    url(r'^introduction/', Introduction.as_view(), name="introduction"),
 ]
