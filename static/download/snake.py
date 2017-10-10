@@ -1,10 +1,32 @@
 # -*- coding: utf-8 -*-
+import json
 import uuid
 from tkinter import *
 import threading
 import queue
 import time
 import random
+import logging
+import requests
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s | %(levelname)s | %(message)s',
+    datefmt='%d %b %Y %H:%M:%S',
+    filename='snake.log',
+    filemode='w+'
+)
+
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+console.setFormatter(formatter)
+logging.getLogger('').addHandler(console)
+
+
+# def get_logger(username):
+#
+#     return log_f
 
 
 class GUI(Tk):
@@ -26,7 +48,6 @@ class GUI(Tk):
 
     def restart(self):
         self.destroy()
-        print("Game Over user is %s" % self.username)
         main()
 
     def queue_handler(self):
@@ -34,7 +55,7 @@ class GUI(Tk):
             while True:
                 task = self.queue.get(block=False)
                 if task.get('game_over'):
-                    self.game_over()
+                    self.game_over(task['score'])
                 elif task.get('move'):
                     points = [x for point in task['move'] for x in point]
                     self.canvas.coords(self.snake, *points)
@@ -48,13 +69,15 @@ class GUI(Tk):
             if not self.is_game_over:
                 self.canvas.after(100, self.queue_handler)
 
-    def game_over(self):
+    def game_over(self, score):
         self.is_game_over = True
+        logging.info("Game Over user is %s, score is %s" % (self.username, score))
         self.canvas.create_text(220, 150, fill='white', text='Game Over!')
         quit_btn = Button(self, text='Quit', command=self.destroy)
         ret_btn = Button(self, text='Resume', command=self.restart)
         self.canvas.create_window(230, 180, anchor=W, window=quit_btn)
         self.canvas.create_window(200, 180, anchor=E, window=ret_btn)
+        log_upload()
 
 
 class Food(object):
@@ -72,7 +95,7 @@ class Food(object):
         x = random.randrange(5, 480, 10)
         y = random.randrange(5, 295, 10)
         self.position = x, y
-        print("food location is (%s, %s)" % (x, y))
+        logging.info("food location is (%s, %s)" % (x, y))
         self.exppos = x-5, y-5, x+5, y+5
         self.queue.put({'food': self.exppos})
 
@@ -89,26 +112,23 @@ class Snake(threading.Thread):
         self.daemon = True
         self.points_score = 0
         self.snake_points = [(495, 55), (485, 55), (475, 55), (465, 55), (455, 55)]
-        self.food = Food(queue)
+        self.food = Food(self.queue)
         self.direction = 'Left'
         self.start()
-
-    def __del__(self):
-        print("Score is %s" % self.points_score)
 
     def run(self):
         if self.gui.is_game_over:
             self._delete()
         while not self.gui.is_game_over:
             self.queue.put({'move': self.snake_points})
-            time.sleep(0.05)
+            time.sleep(0.08)
             self.move()
 
     def key_pressed(self, e):
         old_direction = self.direction
         self.direction = e.keysym
         if self.direction != old_direction:
-            print("Enter keys %s" % self.direction)
+            logging.info("Enter keys %s" % self.direction)
 
     def move(self):
         new_snake_point = self.calculate_new_coordinates()
@@ -139,15 +159,36 @@ class Snake(threading.Thread):
     def check_game_over(self, snake_point):
         x, y = snake_point[0], snake_point[1]
         if not -5 < x < 505 or not -5 < y < 315 or snake_point in self.snake_points:
-            self.queue.put({'game_over': True})
+            self.queue.put({'game_over': True, 'score': self.points_score})
+
+
+def log_upload():
+    f = open("snake.log", "r")
+    url = 'http://127.0.0.1:9898/upload/'
+    headers = {
+        "Content-type": "application/json; charset=utf-8",
+    }
+    log_list = f.readlines()
+    data = {
+        "tips": "log_upload",
+        "log_list": log_list
+    }
+    post_data = json.dumps(data)
+
+    resp = requests.post(url, headers=headers, data=post_data)
+    content = resp.content
+    resp_data = json.loads(content.decode())
+    print(resp_data)
+
+    f.close()
 
 
 def main():
     username = uuid.uuid4()
-    print("Game start user is %s" % username)
+    logging.info("game start, user is %s" % username)
     q = queue.Queue()
     gui = GUI(q, username)
-    gui.title("my snake")
+    gui.title("snake")
     snake = Snake(gui, q)
     gui.bind('<Key-Left>', snake.key_pressed)
     gui.bind('<Key-Right>', snake.key_pressed)
