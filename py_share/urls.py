@@ -20,6 +20,7 @@ from apps.gamedownload.views import GameDownload
 from apps.introduction.views import Introduction
 from apps.datareceive.views import DataReceive
 from apps.codeview.views import CodeView
+from apps.dataprocess.views import DataProcess
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,4 +29,5 @@ urlpatterns = [
     url(r'^introduction/', Introduction.as_view(), name="introduction"),
     url(r'^upload/', DataReceive.as_view(), name="upload"),
     url(r'^code_view/', CodeView.as_view(), name="code_view"),
+    url(r'^data_process/', DataProcess.as_view(), name="dat_process"),
 ]

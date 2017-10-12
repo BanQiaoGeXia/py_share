@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'apps.gamedownload',
     'apps.introduction',
     'apps.datareceive',
+    'apps.codeview',
+    'apps.dataprocess',
 ]
 
 MIDDLEWARE = [

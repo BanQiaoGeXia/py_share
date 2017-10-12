@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dataprocess</title>
+</head>
+<body>
+<h1>贪吃蛇日志分析结果</h1>
+<br><br><br>
+{% for username, user_data in result_data.items %}
+    <span>{{ username }}</span><br>
+    {% for k, v in user_data.items %}
+        <span>{{ k }}  </span><span>{{ v }}</span><br>
+    {% endfor %}
+    <br>
+{% endfor %}
+
+</body>
+</html>

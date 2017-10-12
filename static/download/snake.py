@@ -159,7 +159,7 @@ class Snake(threading.Thread):
 
 def log_upload(username):
     f = open("snake.log", "r")
-    url = 'http://127.0.0.1:9898/upload/'
+    url = 'http://10.255.6.44:9898/upload/'
     headers = {
         "Content-type": "application/json; charset=utf-8",
     }
