@@ -19,6 +19,7 @@ from apps.indexhandlers.views import IndexHandler
 from apps.gamedownload.views import GameDownload
 from apps.introduction.views import Introduction
 from apps.datareceive.views import DataReceive
+from apps.codeview.views import CodeView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -26,4 +27,5 @@ urlpatterns = [
     url(r'^download/', GameDownload.as_view(), name='download'),
     url(r'^introduction/', Introduction.as_view(), name="introduction"),
     url(r'^upload/', DataReceive.as_view(), name="upload"),
+    url(r'^code_view/', CodeView.as_view(), name="code_view"),
 ]

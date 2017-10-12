@@ -128,4 +128,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+USER_LOG_DIRS = (os.path.join(BASE_DIR, "user_logs"))
+
 # TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)

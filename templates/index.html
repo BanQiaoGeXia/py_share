@@ -46,7 +46,6 @@ table th {
 }
 
 table tr {
-    background-color: none;
     border-top: 1px solid #ccc;
 }
 table tr:nth-child(2n) {
@@ -104,7 +103,6 @@ img {
   margin: auto;
 }
 pre {
-  word-break:break-word
 }
 p,pre,pre.prettyprint,blockquote {
   margin:0 0 1.1em
@@ -177,10 +175,8 @@ pre code {
 <body>
 
 	<div class="note-container">
-{#		<h1 class="title" id="leanote-title">首页</h1>#}
 		<div class="content-container html" id="content-container">
 			<!-- 切换 -->
-			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
 			<textarea id="leanote-content-markdown"># <center>Python 技术分享</center>
 
 <br><br><br>
@@ -205,43 +201,12 @@ pre code {
 <br>
 **<a href="download/">下载游戏--《贪吃蛇》</a>**
 <br>
-**《贪吃蛇》代码展示及分析**
+**<a href="code_view/">《贪吃蛇》代码展示及分析</a>**
 <br>
 **日志分析代码展示及分析**
 <br>
 **web框架应用示例**
 </textarea>
-			<!-- markdown -->
-			<pre class="content-markdown"># <center>Python 技术分享</center>
-
-<br><br><br>
-
-**<center>孙俊鹏</center>**
-<br><br>
-
-## 今日目标
-
-1. 编写桌面应用程序，大型多人在线竞技类游戏--《贪吃蛇》
-<br>
-2. 体验游戏，收集整合游戏日志
-<br>
-3. 对整合的日志进行数据分析，统计指标
-<br>
-4. 搭建web，对日志分析结果进行可视化展示
-<br>
-
-## 目标导航
-<br>
-**python 简介**
-<br>
-**下载游戏--《贪吃蛇》**
-<br>
-**《贪吃蛇》代码展示及分析**
-<br>
-**日志分析代码展示及分析**
-<br>
-**web框架应用示例**
-</pre>
 			<!-- html -->
 			<div class="content-html" id="leanote-content-html"></div>
 		</div>

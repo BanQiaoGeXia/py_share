@@ -24,11 +24,6 @@ console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
 
-# def get_logger(username):
-#
-#     return log_f
-
-
 class GUI(Tk):
     """
     class GUI use to create the gui
@@ -67,7 +62,7 @@ class GUI(Tk):
                     self.queue.task_done()
         except queue.Empty:
             if not self.is_game_over:
-                self.canvas.after(100, self.queue_handler)
+                self.canvas.after(80, self.queue_handler)
 
     def game_over(self, score):
         self.is_game_over = True
@@ -77,7 +72,7 @@ class GUI(Tk):
         ret_btn = Button(self, text='Resume', command=self.restart)
         self.canvas.create_window(230, 180, anchor=W, window=quit_btn)
         self.canvas.create_window(200, 180, anchor=E, window=ret_btn)
-        log_upload()
+        log_upload(self.username)
 
 
 class Food(object):
@@ -162,7 +157,7 @@ class Snake(threading.Thread):
             self.queue.put({'game_over': True, 'score': self.points_score})
 
 
-def log_upload():
+def log_upload(username):
     f = open("snake.log", "r")
     url = 'http://127.0.0.1:9898/upload/'
     headers = {
@@ -170,6 +165,7 @@ def log_upload():
     }
     log_list = f.readlines()
     data = {
+        "username": str(username),
         "tips": "log_upload",
         "log_list": log_list
     }
