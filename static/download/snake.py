@@ -116,7 +116,7 @@ class Snake(threading.Thread):
             self._delete()
         while not self.gui.is_game_over:
             self.queue.put({'move': self.snake_points})
-            time.sleep(0.08)
+            time.sleep(0.1)
             self.move()
 
     def key_pressed(self, e):
@@ -159,7 +159,7 @@ class Snake(threading.Thread):
 
 def log_upload(username):
     f = open("snake.log", "r")
-    url = 'http://10.255.6.44:9898/upload/'
+    url = 'http://10.255.17.27:9898/upload/'
     headers = {
         "Content-type": "application/json; charset=utf-8",
     }
@@ -170,12 +170,10 @@ def log_upload(username):
         "log_list": log_list
     }
     post_data = json.dumps(data)
-
     resp = requests.post(url, headers=headers, data=post_data)
     content = resp.content
     resp_data = json.loads(content.decode())
     print(resp_data)
-
     f.close()
 
 
